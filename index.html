@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//ES">
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Firmas para Gmail</title>
+    <link rel="icon" href="images/Logo_T_v3.png" type="image/png">
+    <style>
+        .container-border {
+            border: 1px solid #008CBA;
+            padding: 1%;
+        }
+
+        .container {
+            width: 500px;
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Generador de Firmas CANSAT</h1>
+        <!-- Horizontal Line -->
+        <hr>
+        <label for="fullNameInput">Nombre Completo:</label>
+        <input type="text" id="fullNameInput" style="width: auto;" placeholder="Nombre Completo">
+        <br><br>
+        <p>
+            Dejar en blanco si no se desea mostrar LinkedIn o WhatsApp en la firma.
+            <a href="https://drive.google.com/file/d/1Thoz_8s8Hvzal_fgWJEbVcgBsH7RK9WU/view?usp=sharing" target="_blank" rel="noopener">Ver tutorial</a>
+        </p>
+        <label for="linkedinInput">URL Perfil de LinkedIn:</label>
+        <input type="text" id="linkedinInput" style="width: 50%;" value="https://www.linkedin.com/in/bilinkis/">
+        <br><br>
+        <label for="whatsappInput">Número de WhatsApp:</label>
+        <input type="text" id="whatsappInput" style="width: auto;" placeholder="+5491234567890">
+        <br><br>
+
+        <label for="sedsMember">Miembro de SEDS</label>
+        <input type="checkbox" id="sedsMember" unchecked>
+        <span id="sedsMemberOptions" style="display: none;">
+            <label for="selectorPuesto">Posición:</label>
+            <select id="selectorPuesto">
+                <option value="Equipo">Equipo</option>
+                <option value="Departamento">Departamento</option>
+                <option value="Head">Head</option>
+                <option value="Co-head">Co-head</option>
+            </select>&nbsp;
+            <label for="deptoSelector"> de </label>
+            <select id="deptoSelector" class="deptoSelector">
+                <option value="Media y Comunicaciones">Media y Comunicaciones</option>
+                <option value="Eventos">Eventos</option>
+                <option value="Fundraising">Fundraising</option>
+                <option value="Competencias">Competencias</option>
+            </select>&nbsp;&nbsp;
+
+            <label for="deptoInput">Departamento:</label>
+            <input type="text" id="deptoInput" style="width: 35%;" value="Media y Comunicaciones">
+        </span>
+        
+        <h2>Roles e Información personal</h2>
+        <label for="jobPosition1Input" style="display: inline;">Puesto Opcional #1:</label> &nbsp;
+        <input type="text" id="jobPosition1Input" style="width: 50%; display: inline;" value="Puesto #1">&nbsp;
+        <br><br>
+        <label for="jobPosition2Input" style="display: inline;">Puesto Opcional #2:</label>&nbsp;
+        <input type="text" id="jobPosition2Input" style="width: 50%; display: inline;" placeholder="Puesto adicional #2">
+
+        <br><br>
+        <label for="itbaShowSite">www.itba.edu.ar</label>
+        <input type="checkbox" id="itbaShowSite" checked>
+        <br>
+        <label for="showSocialsSEDS">Redes SEDS ITBA</label>
+        <input type="checkbox" id="showSocialsSEDS" checked>
+        <br><br>
+        <button onclick="updateSignature()">Renderizar Firma</button>
+    </div>
+    <br/>
+    <div class="container-border">
+        <table id="signature" class="container" cellpadding="0" cellspacing="0" style="width: 500px;">
+            <tbody>
+                <tr>
+                    <td style="width: 143px; vertical-align: top; border-right: 1px solid #000000">
+                        <a href="https://linktr.ee/seds_itba" target="_blank" rel="noopener">
+                            <img src="images/Logo_T_v3.png"
+                                 alt="photograph" width="126" border="0"
+                                 style="border:0; height:auto; width:126px"/>
+                        </a>
+                    </td>
+                    <td style="width: 26px;"></td>
+                    <td style="width: 331px; vertical-align: top;">
+
+                        <span style="display: flex; align-items: center;">
+
+                            <span id="nameSpan" style="font-size: 11pt; font-family: Arial, sans-serif; color:#000000; font-weight: bold; align-items: center;">Nombre Completo<br></span>
+    
+                            <span id="linkedinContainer" style="align-items: center;">&nbsp;&nbsp;<a id="linkedinLink" href="#" target="_blank" rel="noopener"><img
+                                border="0" width="16"
+                                src="images/linkedin_logo.png"
+                                alt="linkedin icon" style="border:0; height:16px; width:16px"></a>
+                            </span>
+
+                            <span id="whatsappContainer" style="align-items: center;">&nbsp;&nbsp;<a id="whatsappLink" href="#" target="_blank" rel="noopener"><img border="0"
+                                        width="16"
+                                        src="images/whatsapp_logo.png"
+                                        alt="whatsapp icon" style="border:0; height:16px; width:16px"></a>
+                            </span>
+                        </span>
+
+                        <span id="puestoContainer"><span id="puesto" style="font-size: 9pt; color:#000000;"></span><br></span>
+                        <span id="jobLine1Container"><span id="jobLine1" style="font-size: 9pt; color:#000000;"></span><br></span>
+                        <span id="jobLine2Container"><span id="jobLine2" style="font-size: 9pt; color:#000000;"></span><br></span>
+            
+                        <span style="display: flex; align-items: center;">
+                            <!-- <a href="tel:+5493487541299"
+                                style="font-size: 9pt; color:#3366BB; text-decoration: underline;"><span
+                                    style="color:#3366BB;">(+54) 9 3487 54-1299</span></a> -->
+            
+            
+                            
+                            <!-- <a href="mailto:rdalzotto@itba.edu.ar"
+                                style="font-size: 9pt; color:#3366BB; text-decoration: underline;"><span
+                                    style="color:#3366BB;">rdalzotto@itba.edu.ar</span></a> -->
+                            <!-- &nbsp;&nbsp; -->
+                        </span>
+
+                        <span style="line-height: 12px; "><br></span>
+                        <span
+                            style="font-family: Arial, sans-serif; font-size: 9pt; line-height: 16px; color:#000000;">Students
+                            for the Exploration and Development of Space<br></span>
+                        <span
+                            style="font-family: Arial, sans-serif; font-size: 9pt; line-height: 16px; color:#000000;">Instituto
+                            Tecnológico de Buenos Aires (ITBA)<br></span>
+                        <a id="itbaSite" href="https://www.itba.edu.ar/"
+                            style="font-size: 9pt;">
+                            <span
+                            style="font-family: Arial, sans-serif; font-size: 9pt; line-height: 16px; ">www.itba.edu.ar<br></span>
+                        </a>
+                        <!-- <br> -->
+                        <span id="SocialsSEDS" style="display: flex; align-items: center;">
+                            <a href="https://www.linkedin.com/company/seds-itba" target="_blank" rel="noopener"><img
+                                border="0" width="16"
+                                src="images/linkedin_icon.jpg"
+                                alt="linkedin icon" style="border:0; height:16px; width:16px"></a>
+                            <a href="https://www.instagram.com/seds.itba" target="_blank" rel="noopener"><img
+                                border="0" width="16"
+                                src="images/instagram_icon.jpg"
+                                alt="linkedin icon" style="border:0; height:16px; width:16px"></a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div>
+        <button class="button" onclick="copyToClipboard()">Copiar Firma</button>
+    </div>
+    <div id="footer" style="position: fixed; bottom: 0; width: 100%; text-align: left;">
+        <p>
+            by <a href="https://www.github.com/Rafdal" target="_blank" rel="noopener">Rafdal</a>
+            &nbsp;|&nbsp;
+            <a href="mailto:rdalzotto@itba.edu.ar" target="_blank" rel="noopener">rdalzotto@itba.edu.ar</a>
+        </p>
+    </div>
+</body>
+<script>
+    /**
+        see https://stackoverflow.com/questions/2044616/select-a-complete-table-with-javascript-to-be-copied-to-clipboard
+    **/
+    function copyToClipboard() {
+        var el = document.getElementById('signature');
+        var body = document.body, range, sel;
+        if (document.createRange && window.getSelection) {
+            range = document.createRange();
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            try {
+                range.selectNodeContents(el);
+                sel.addRange(range);
+            } catch (e) {
+                range.selectNode(el);
+                sel.addRange(range);
+            }
+            document.execCommand("copy");
+            // clear selection
+            if (sel) {
+                if (sel.removeAllRanges) {
+                    sel.removeAllRanges();
+                } else if (sel.empty) {
+                    sel.empty();
+                }
+            }
+        } else if (body.createTextRange) {
+            range = body.createTextRange();
+            range.moveToElementText(el);
+            range.select();
+            range.execCommand("copy");
+        }
+        alert('Firma copiada al portapapeles');
+    }
+
+    document.getElementById('deptoSelector').addEventListener('click', function () {
+        document.getElementById('deptoInput').value = this.value;
+    });
+
+    document.getElementById('sedsMember').addEventListener('click', function () {
+        var checked = this.checked;
+        document.getElementById('sedsMemberOptions').style.display = checked ? 'inline' : 'none';
+    });
+
+    function updateSignature() {
+        var linkedinValue = document.getElementById('linkedinInput').value;
+        var whatsappValue = document.getElementById('whatsappInput').value;
+
+        // remove spaces and '(' and ')' from whatsapp number
+        whatsappValue = whatsappValue.replace(/\(/g, '');
+        whatsappValue = whatsappValue.replace(/\)/g, '');
+        whatsappValue = whatsappValue.replace(/\s/g, '');
+
+        // Check format of whatsapp number using regex and number length
+        var whatsappRegex = /^\+?[0-9]+$/;
+        if (whatsappValue !== '' && (!whatsappRegex.test(whatsappValue) || whatsappValue.length !== 14)) {
+            alert('El número de WhatsApp debe tener formato +5491234567890');
+            whatsappValue = '';
+        }
+
+        document.getElementById('linkedinLink').href = linkedinValue;
+        document.getElementById('whatsappLink').href = "https://wa.me/" + whatsappValue;
+
+        var fullNameValue = document.getElementById('fullNameInput').value;
+        document.getElementById('nameSpan').textContent = fullNameValue || 'Nombre Completo';
+
+        var puestoValue = document.getElementById('selectorPuesto').value;
+        var deptoValue = document.getElementById('deptoInput').value;
+        var puestoStr = "";
+        if (puestoValue !== 'Co-director') {
+            puestoStr = puestoValue + ' de ' + deptoValue + ', SEDS ITBA';
+        } else {
+            puestoStr = puestoValue + ' de SEDS ITBA';
+        }
+        document.getElementById('puesto').textContent = puestoStr;
+        if (document.getElementById('sedsMember').checked === false) {
+            document.getElementById('puestoContainer').style.display = 'none';
+        } else {
+            document.getElementById('puestoContainer').style.display = 'inline';
+        }
+
+        var jobPos1Value = document.getElementById('jobPosition1Input').value;
+        document.getElementById('jobLine1').textContent = jobPos1Value
+
+        var jobPos2Value = document.getElementById('jobPosition2Input').value;
+        document.getElementById('jobLine2').textContent = jobPos2Value
+
+        // If some of these values are empty, hide the icon or content
+        document.getElementById('linkedinContainer').style.display = linkedinValue ? 'inline' : 'none';
+        document.getElementById('whatsappContainer').style.display = whatsappValue ? 'inline' : 'none';
+        document.getElementById('jobLine1Container').style.display = jobPos1Value ? 'inline' : 'none';
+        document.getElementById('jobLine2Container').style.display = jobPos2Value ? 'inline' : 'none';
+    
+        var itbaShowSite = document.getElementById('itbaShowSite').checked;
+        document.getElementById('itbaSite').style.display = itbaShowSite ? 'inline' : 'none';
+        var showSocialsSEDS = document.getElementById('showSocialsSEDS').checked;
+        document.getElementById('SocialsSEDS').style.display = showSocialsSEDS ? 'inline' : 'none';
+    }
+
+    window.onload = () => {
+        updateSignature();
+    };
+</script>
+
+</html>
+
+<!-- https://mail.google.com/mail/u/?authuser=your-email&view=cm&fs=1&to=rdalzotto@itba.edu.ar&su=FIRMA+MAIL+SEDS&body=Version -->
