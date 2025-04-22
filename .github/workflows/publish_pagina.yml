@@ -22,9 +22,9 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v2  # Asegúrate de usar @v2 para upload-pages-artifact
         with:
-          path: './'  # Como tenés el index.html en la raíz
+          path: './'
 
   deploy:
     needs: build
